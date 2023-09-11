@@ -1,0 +1,29 @@
+{
+  "name": "tech-blog-mvc-uofw",
+  "version": "1.0.0",
+  "description": "A CMS-style blog using CMV ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LShankKirchner017/tech-blog-mvc-uofw.git"
+  },
+  "author": "Lindsay Shank-Kirchner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LShankKirchner017/tech-blog-mvc-uofw/issues"
+  },
+  "homepage": "https://github.com/LShankKirchner017/tech-blog-mvc-uofw#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.8",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.33.0"
+  }
+}
