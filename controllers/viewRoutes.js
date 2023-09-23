@@ -1,20 +1,61 @@
 const router = require("express").Router();
-const { User, Game_List } = require("../models");
+const { User, Post, Comment } = require("../models");
 const withAuth = require("../utils/auth");
+const format_date = require("../utils/date")
 
-router.get("/", withAuth, async (req, res) => {
-  Post.findAll()
-    .then((dbPostData) => {
-      //const posts = dbPostData.map((post) => post.get({ plain: true }));
-      res.render("homepage", {
-        dbPostData,
-        user: req.session.user,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
+// dashboard.handlebars
+router.get("/dashboard", withAuth, async (req, res) => {
+  const posts = await Post.findAll({
+    where: {
+      id: req.session.user.id,
+    },
+    raw: true,
+    order: [["created_at", "DESC"]],
+    include: User
+  });
+  res.render("dashboard", {
+    posts,
+    user: req.session.user,
+  });
+});
+
+// home.handlebars
+router.get("/", async (req, res) => {
+  const posts = await Post.findAll({
+    raw: true,
+    order: [["created_at", "DESC"]],
+    include: User
+  });
+  res.render("home", {
+    posts,
+    user: req.session.user,
+  });
+});
+
+router.get("/post/:id", async (req, res) => {
+  const post = await Post.findOne({
+    where: {
+      id: req.params.id,
+    },
+    raw: true,
+    include: [
+      {
+        model: Comment,
+        include: User,
+      },
+      {
+        model: User,
+      },
+    ],
+  });
+  if (!post) {
+    res.status(404).json({ message: "No post found with that id!" });
+    return;
+  }
+  res.render("post", {
+    post,
+    user: req.session.user,
+  });
 });
 
 router.get("/login", (req, res) => {
@@ -22,42 +63,15 @@ router.get("/login", (req, res) => {
     res.redirect("/");
     return;
   }
-
-  res.render("login");
-});
-
-router.get("/new-list", (req, res) => {
-  res.render("newList", {
-    style: "newList",
+  res.render("login", {
+    user: req.session.user,
   });
 });
 
-router.get("/user-profile", withAuth, async (req, res) => {
-  let user = await User.findByPk(req.session.user.id, {
-    // TODO include gameList (array of game lists)
-    include: [{ model: Game_List }],
-  });
-  user = user.get({
-    plain: true,
-  });
-  console.log(user);
-  res.render("userProfile", { user, style: "profile" });
-});
-
-router.get("/sign-up", (req, res) => {
+router.get("/signup", (req, res) => {
   res.render("signup", {
-    style: "signup",
+    user: req.session.user,
   });
-});
-
-router.get("/game-list/:id", async (req, res) => {
-  const listId = req.params.id;
-  let game = await Game_List.findByPk(listId);
-  game = game.get({
-    plain: true,
-  });
-  console.log(game);
-  res.render("gameList", game);
 });
 
 module.exports = router;
