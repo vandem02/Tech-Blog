@@ -4,14 +4,14 @@ const withAuth = require("../utils/auth");
 
 // dashboard.handlebars
 router.get("/dashboard", withAuth, async (req, res) => {
-  const posts = await Post.findAll({
+  let posts = await Post.findAll({
     where: {
       id: req.session.user.id,
     },
-    raw: true,
     order: [["created_at", "DESC"]],
     include: User
   });
+  posts = posts.map(post => post.get({ plain: true }))
   res.render("dashboard", {
     posts,
     user: req.session.user,
@@ -25,7 +25,6 @@ router.get("/", async (req, res) => {
     include: User
   });
   posts = posts.map(post => post.get({ plain: true }))
-  console.log(posts)
   res.render("home", {
     posts,
     user: req.session.user,

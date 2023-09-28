@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 const sess = {
   secret: 'Doofalicious',
-  cookie: { maxAge: 300000 }, // Session expires when inactive for 5 minutes
+  cookie: { maxAge: 300000 }, // Session expires when inactive for 300,000 milliseconds (5 minutes)
   resave: true,
   rolling: true,
   saveUninitialized: true,

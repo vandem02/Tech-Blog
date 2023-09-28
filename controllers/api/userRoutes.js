@@ -8,23 +8,23 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ where: { username } });
 
     if (!user) {
-      res.status(401).json({ message: "Incorrect username or password." });
+      res.status(401).end();
       return;
     }
 
     const validatePassword = await user.checkPassword(password);
 
     if (!validatePassword) {
-      res.status(401).json({ message: "Incorrect username or password." });
+      res.status(401).end();
       return;
     }
 
     req.session.save(() => {
       req.session.user = user;
-      res.status(200).end();
+      res.redirect("/")
     });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -38,17 +38,27 @@ router.post("/logout", (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/signup", async (req, res) => {
+  const { username } = req.body;
+
   try {
+    const user = await User.findOne({ where: { username } });
+
+    if (user) {
+      res.status(400).statusMessage = "Sorry, this username is taken."
+      res.send()
+      return;
+    }
+
     const newUser = await User.create(req.body);
 
     req.session.save(() => {
       req.session.user = newUser;
-      res.status(201).end()
+      res.redirect("/")
     });
   } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+    console.log(err)
+    res.status(500).json(err);
   }
 });
 
