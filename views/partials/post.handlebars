@@ -1,24 +1,18 @@
-<div class="card mb-6">
-  <header class="card-header card-header-title has-background-grey-lighter">
-    <div class="column">
-      <p class="has-text-primary-light">
-        <a href="/post/{{id}}" class="has-text-black is-capitalized is-pulled-left">{{title}} </a></p>
+<a href="/post/{{id}}" style="text-decoration: none;">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">{{title}}</h5>
     </div>
-    <div class="column">
-      <span class=""> </span>
+    <div class="card-body">
+      <p class="card-text">{{text}}</p>
     </div>
-  </header>
-  <div class="card-content">
-    <div class="content has-text-justified">
-      {{text}}
-    </div>
-    <div class="is-pulled-right">
+    <div class="card-footer text-body-secondary">
       <b>{{user.username}}</b>
       |
       {{format_date createdAt}}
       |
-      <a href="/post/{{id}}">{{comments.length}} {{format_plural "comment" comments.length}}</a>
+      <i class="bi bi-chat-left-text"></i>
+      {{comments.length}}
     </div>
-
   </div>
-</div>
+</a>

@@ -9,7 +9,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
       id: req.session.user.id,
     },
     order: [["created_at", "DESC"]],
-    include: User
+    include: User, Comment
   });
   posts = posts.map(post => post.get({ plain: true }))
   res.render("dashboard", {
@@ -22,7 +22,12 @@ router.get("/dashboard", withAuth, async (req, res) => {
 router.get("/", async (req, res) => {
   let posts = await Post.findAll({
     order: [["created_at", "DESC"]],
-    include: User
+    include: [{
+      model: User
+    },
+    {
+      model: Comment,
+    }]
   });
   posts = posts.map(post => post.get({ plain: true }))
   res.render("home", {
@@ -37,7 +42,6 @@ router.get("/edit/:id", async (req, res) => {
     where: {
       id: req.params.id,
     },
-    raw: true,
     include: [
       {
         model: Comment,
@@ -61,11 +65,10 @@ router.get("/edit/:id", async (req, res) => {
 
 // view-post.handlebars
 router.get("/post/:id", async (req, res) => {
-  const post = await Post.findOne({
+  let post = await Post.findOne({
     where: {
       id: req.params.id,
     },
-    raw: true,
     include: [
       {
         model: Comment,
@@ -76,13 +79,14 @@ router.get("/post/:id", async (req, res) => {
       },
     ],
   });
+  post = post.get({ plain: true })
   if (!post) {
     res.status(404).json({ message: "No post found with that id!" });
     return;
   }
-  res.render("post", {
+  res.render("view-post", {
     post,
-    isAuthor: post.user_id == req.session.user.id,
+    isAuthor: req.session.user ? post.user_id == req.session.user.id : false,
     user: req.session.user,
   });
 });

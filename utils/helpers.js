@@ -13,12 +13,5 @@ module.exports = {
       AMorPM = "pm";
     }
     return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${hour}:${d.getMinutes()} ${AMorPM}`;
-  },
-  format_plural: (word, amount) => {
-    if (amount !== 1) {
-      return `${word}s`;
-    }
-
-    return word;
-  },
+  }
 };

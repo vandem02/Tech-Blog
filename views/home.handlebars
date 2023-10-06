@@ -1,5 +1,5 @@
-{{#each posts as |post|}}
-   {{> post post}}
+{{#each posts}}
+   {{> post this}}
 {{else}}
    <p>No posts to show.</p>
 {{/each}}
