@@ -2,22 +2,6 @@ const router = require("express").Router();
 const { User, Post, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
-// dashboard.handlebars
-router.get("/dashboard", withAuth, async (req, res) => {
-  let posts = await Post.findAll({
-    where: {
-      id: req.session.user.id,
-    },
-    order: [["created_at", "DESC"]],
-    include: User, Comment
-  });
-  posts = posts.map(post => post.get({ plain: true }))
-  res.render("dashboard", {
-    posts,
-    user: req.session.user,
-  });
-});
-
 // home.handlebars
 router.get("/", async (req, res) => {
   let posts = await Post.findAll({
@@ -31,6 +15,22 @@ router.get("/", async (req, res) => {
   });
   posts = posts.map(post => post.get({ plain: true }))
   res.render("home", {
+    posts,
+    user: req.session.user,
+  });
+});
+
+// dashboard.handlebars
+router.get("/dashboard", withAuth, async (req, res) => {
+  let posts = await Post.findAll({
+    where: {
+      user_id: req.session.user.id,
+    },
+    order: [["created_at", "DESC"]],
+    include: User, Comment
+  });
+  posts = posts.map(post => post.get({ plain: true }))
+  res.render("dashboard", {
     posts,
     user: req.session.user,
   });
