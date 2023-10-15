@@ -12,13 +12,8 @@ async function loginFormHandler(event) {
       }),
       headers: { "Content-Type": "application/json" },
     });
-    if (response.ok) {
-      document.location.replace("/")
-    }
-
-    if (response.status == 401) {
-      alert("Incorrect username or password.")
-    }
+    if (response.ok) window.location.assign("/");
+    alert(await response.json());
   }
 }
 

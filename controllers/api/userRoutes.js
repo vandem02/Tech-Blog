@@ -8,14 +8,14 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ where: { username } });
 
     if (!user) {
-      res.status(401).end();
+      res.status(400).json("Incorrect username or password.")
       return;
     }
 
     const validatePassword = await user.checkPassword(password);
 
     if (!validatePassword) {
-      res.status(401).end();
+      res.status(400).json("Incorrect username or password.")
       return;
     }
 
@@ -45,8 +45,7 @@ router.post("/signup", async (req, res) => {
     const user = await User.findOne({ where: { username } });
 
     if (user) {
-      res.status(400).statusMessage = "Sorry, this username is taken."
-      res.send()
+      res.status(400).json("Sorry, this username is taken.")
       return;
     }
 
@@ -54,7 +53,7 @@ router.post("/signup", async (req, res) => {
 
     req.session.save(() => {
       req.session.user = newUser;
-      res.redirect("/")
+      res.send(200)
     });
   } catch (err) {
     console.log(err)

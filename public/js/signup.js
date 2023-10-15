@@ -1,5 +1,5 @@
-async function loginFormHandler(event) {
-  event.preventDefault();
+const signupFormHandler = async (e) => {
+  e.preventDefault();
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
@@ -12,11 +12,9 @@ async function loginFormHandler(event) {
       }),
       headers: { "Content-Type": "application/json" },
     });
-    console.log(response);
-    if (response.status == 400) {
-      alert(response.statusText);
-    }
+    if (response.ok) window.location.assign("/")
+    alert(await response.json())
   }
 }
 
-document.getElementById("login").addEventListener("click", loginFormHandler);
+document.getElementById("signup").addEventListener("click", signupFormHandler);

@@ -1,7 +1,7 @@
 const homeEl = document.getElementById("home");
 const dashEl = document.getElementById("dashboard");
 const loginEl = document.getElementById("log-in");
-const signupEl = document.getElementById("signup");
+const signupEl = document.getElementById("sign-up");
 
 switch (window.location.pathname) {
   case "/":
@@ -24,7 +24,7 @@ const logout = async () => {
   });
 
   if (response.ok) {
-    document.location.replace("/");
+    window.location.assign("/");
   } else {
     alert(response.statusText);
   }
