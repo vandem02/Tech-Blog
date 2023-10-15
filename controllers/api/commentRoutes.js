@@ -6,8 +6,8 @@ router.post("/", (req, res) => {
   try {
     Comment.create({
       text,
-      post_id,
-      user_id: 2,
+      user_id: req.session.user.id,
+      post_id
     });
     res.status(201).end();
   } catch (err) {

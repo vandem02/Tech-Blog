@@ -14,8 +14,17 @@
     <button type="button" class="btn btn-danger"><i class="bi bi-trash3"></i> Delete</button>
   </div>
 {{/if}}
+{{#if user}}
+  <div class="form-floating">
+    <textarea class="form-control" placeholder="Comment" id="floatingTextarea" style="height: 100px"></textarea>
+    <label for="floatingTextarea">Leave a comment...</label>
+  </div>
+  <div class="d-inline"><button id="comment" class="btn btn-primary">Comment</button></div>
+{{else}}
+  <p>Please <a href="/login">log in</a> to leave a comment.</p>
+{{/if}}
 {{#with post}}
-  {{#if comments}}<h2>Comments ({{comments.length}})</h2>{{/if}}
+  {{#if comments}}<h2>Comments ({{comments.length}}):</h2>{{/if}}
   {{#each comments}}
     <div class="card">
       <div class="card-body">
@@ -28,3 +37,4 @@
     <p>This post has no comments.</p>
   {{/each}}
 {{/with}}
+<script src="/js/comment.js"></script>

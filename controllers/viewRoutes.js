@@ -72,12 +72,15 @@ router.get("/post/:id", async (req, res) => {
     include: [
       {
         model: Comment,
-        include: User,
+        include: User
       },
       {
         model: User,
       },
     ],
+    order: [
+      [Comment, "created_at", "DESC"]
+    ]
   });
   post = post.get({ plain: true })
   if (!post) {
