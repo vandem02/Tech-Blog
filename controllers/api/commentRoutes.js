@@ -16,4 +16,22 @@ router.post("/", (req, res) => {
   }
 });
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const result = await Comment.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!result) {
+      res.status(404).json({ message: "No comment exists with this ID." });
+      return;
+    }
+    res.status(200).end();
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

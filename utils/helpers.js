@@ -15,5 +15,7 @@ module.exports = {
     const m = d.getMinutes()
     const minute = m < 10 ? "0" + m : m
     return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${hour}:${minute} ${AMorPM}`;
-  }
+  },
+
+  compare: (o1, o2) => o1 == o2
 };

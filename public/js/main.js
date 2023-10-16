@@ -16,16 +16,3 @@ switch (window.location.pathname) {
   case "/signup":
     signupEl.classList.add("active");
 }
-
-const logout = async () => {
-  const response = await fetch("/api/users/logout", {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (response.ok) {
-    window.location.assign("/");
-  } else {
-    alert(response.statusText);
-  }
-};

@@ -1,7 +1,7 @@
-const post_id = window.location.pathname.split("/")[2]
+const post_id = window.location.pathname.split("/")[2];
 
 document.getElementById("comment").addEventListener("click", async (e) => {
-  e.preventDefault()
+  e.preventDefault();
   const text = document.getElementById("floatingTextarea").value.trim();
 
   if (text) {
@@ -9,14 +9,14 @@ document.getElementById("comment").addEventListener("click", async (e) => {
       method: "post",
       body: JSON.stringify({
         text,
-        post_id
+        post_id,
       }),
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
-    if (response.ok) window.location.reload()
+    if (response.ok) window.location.reload();
     alert(await response.json());
   }
-})
+});
 
 document.getElementById("edit").addEventListener("click", (e) => {
   e.preventDefault();
@@ -25,14 +25,25 @@ document.getElementById("edit").addEventListener("click", (e) => {
 });
 
 document.getElementById("delete").addEventListener("click", async (e) => {
-  e.preventDefault()
-  
+  e.preventDefault();
+
   if (confirm("Are you sure you want to delete this post?")) {
     const response = await fetch(`/api/posts/${post_id}`, {
       method: "delete",
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     });
-    if (response.ok) window.location.assign("/")
+    if (response.ok) window.location.assign("/");
     alert(await response.json());
   }
-})
+});
+
+const deleteComment = async (id) => {
+  if (confirm("Are you sure you want to delete this comment?")) {
+    const response = await fetch(`/api/comments/${id}`, {
+      method: "delete",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) window.location.reload();
+    alert(await response.json());
+  }
+};

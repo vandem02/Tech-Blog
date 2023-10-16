@@ -28,16 +28,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/logout", (req, res) => {
-  if (req.session.user) {
-    req.session.destroy(() => {
-      res.status(200).end();
-    });
-  } else {
-    res.status(404).end();
-  }
-});
-
 router.post("/signup", async (req, res) => {
   const { username } = req.body;
 

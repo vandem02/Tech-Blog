@@ -32,11 +32,15 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    Post.destroy({
+    const result = await Post.destroy({
       where: {
         id: req.params.id
       }
     });
+    if (!result) {
+      res.status(404).json({ message: "No post exists with this ID." });
+      return;
+    }
     res.status(200).end()
   } catch (err) {
     console.log(err);
