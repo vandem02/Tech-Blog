@@ -1,0 +1,9 @@
+body {
+  font-family: 'Figtree', sans-serif;
+  background: url(/images/code-background.png) no-repeat center fixed;
+  background-size: cover;
+}
+
+#content {
+  background-color: white;
+}
