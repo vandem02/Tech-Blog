@@ -1,4 +1,5 @@
-# nextQuest: May Your Next Be Best
+# The Daily \<Div\>
+## A social media site by Evan Vandenberg
 
 A game tracker for the busy video or table-top role playing gamer!
 
