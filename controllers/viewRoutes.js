@@ -5,15 +5,10 @@ const withAuth = require("../utils/auth");
 // home.handlebars
 router.get("/", async (req, res) => {
   let posts = await Post.findAll({
+    include: [User, Comment],
     order: [["created_at", "DESC"]],
-    include: [{
-      model: User
-    },
-    {
-      model: Comment,
-    }]
   });
-  posts = posts.map(post => post.get({ plain: true }))
+  posts = posts.map((post) => post.get({ plain: true }));
   res.render("home", {
     posts,
     user: req.session.user,
@@ -26,10 +21,10 @@ router.get("/dashboard", withAuth, async (req, res) => {
     where: {
       user_id: req.session.user.id,
     },
+    include: [User, Comment],
     order: [["created_at", "DESC"]],
-    include: User, Comment
   });
-  posts = posts.map(post => post.get({ plain: true }))
+  posts = posts.map((post) => post.get({ plain: true }));
   res.render("dashboard", {
     posts,
     user: req.session.user,
@@ -38,51 +33,31 @@ router.get("/dashboard", withAuth, async (req, res) => {
 
 // edit-post.handlebars
 router.get("/edit/:id", async (req, res) => {
-  const post = await Post.findOne({
-    where: {
-      id: req.params.id,
-    },
-    include: [
-      {
-        model: Comment,
-        include: User,
-      },
-      {
-        model: User,
-      },
-    ],
-  });
+  let post = await Post.findByPk(req.params.id);
+  post = post.get({ plain: true });
   if (!post) {
     res.status(404).json({ message: "No post found with that id!" });
     return;
   }
   res.render("edit-post", {
     post,
-    isAuthor: post.user_id == req.session.user.id,
     user: req.session.user,
   });
 });
 
 // view-post.handlebars
 router.get("/post/:id", async (req, res) => {
-  let post = await Post.findOne({
-    where: {
-      id: req.params.id,
-    },
+  let post = await Post.findByPk(req.params.id, {
     include: [
+      User,
       {
         model: Comment,
-        include: User
-      },
-      {
-        model: User,
-      },
+        include: User,
+      }
     ],
-    order: [
-      [Comment, "created_at", "DESC"]
-    ]
+    order: [[Comment, "created_at", "DESC"]],
   });
-  post = post.get({ plain: true })
+  post = post.get({ plain: true });
   if (!post) {
     res.status(404).json({ message: "No post found with that id!" });
     return;

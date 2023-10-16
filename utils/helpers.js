@@ -12,6 +12,8 @@ module.exports = {
       hour -= 12;
       AMorPM = "pm";
     }
-    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${hour}:${d.getMinutes()} ${AMorPM}`;
+    const m = d.getMinutes()
+    const minute = m < 10 ? "0" + m : m
+    return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} at ${hour}:${minute} ${AMorPM}`;
   }
 };
