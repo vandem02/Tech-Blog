@@ -14,4 +14,6 @@ The site uses the following npm packages:
 - `sequelize`, an ODM to simplify and facilitate queries made to the database
 
 ## Deployed Heroku Link
-https://next-quest-app-ede904b63665.herokuapp.com/login 
+https://daily-div-c5fddf51edce.herokuapp.com 
+
+The browser icon displays my superior Microsoft Paint skills.
