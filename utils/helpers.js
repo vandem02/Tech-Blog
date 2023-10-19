@@ -3,7 +3,7 @@ module.exports = {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const d = new Date(date);
     var AMorPM = "am";
-    d.setHours(d.getHours() - 5)
+    d.setMinutes(d.getMinutes - d.getTimezoneOffset())
     let hour = d.getHours();
     if (hour == 0) {
       hour = 12;
