@@ -2,8 +2,9 @@ module.exports = {
   format_date: (date) => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const d = new Date(date);
+    const local = new Date();
+    d.setMinutes(d.getMinutes() - local.getTimezoneOffset())
     var AMorPM = "am";
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset())
     let hour = d.getHours();
     if (hour == 0) {
       hour = 12;
